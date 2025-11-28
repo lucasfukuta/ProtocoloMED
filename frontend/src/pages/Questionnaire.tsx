@@ -1,129 +1,288 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { ArrowLeft, ArrowRight, CheckCircle, Upload, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle, AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/auth/AuthProvider";
+import NotFound from "./NotFound";
+import { Checkbox } from "@/components/ui/checkbox"; // [NOVO] Importar Checkbox
+
+// ===============================================
+// 1. ESTRUTURA E PERGUNTAS (Questionnaire Data)
+// ===============================================
 
 interface Question {
   id: string;
   question: string;
-  type?: "radio" | "photos";
-  options?: { value: string; label: string }[];
-  photoLabels?: string[];
+  // [MODIFICADO] Adicionando 'checkbox' como tipo
+  type?: "radio" | "checkbox";
+  options?: { value: string; label: string; stopFlag?: boolean }[];
 }
 
 const questions: Question[] = [
+  // FASE 1 (Mantida)
   {
-    id: "age",
-    question: "Qual sua idade?",
+    id: "F1_Q1_gender", question: "Por favor, selecione com qual gênero você se identifica.",
+    options: [{ value: "feminino", label: "Feminino" }, { value: "masculino", label: "Masculino" }]
+  },
+
+  {
+    id: "F1_Q2_stage", question: "Observe as ilustrações abaixo. Qual delas melhor descreve o estágio atual da sua queda capilar?",
     options: [
-      { value: "18-25", label: "18-25 anos" },
-      { value: "26-35", label: "26-35 anos" },
-      { value: "36-45", label: "36-45 anos" },
-      { value: "46+", label: "46+ anos" }
+      { value: "entradas", label: "Entradas" },
+      { value: "entradas_coroa", label: "Entradas e coroa" },
+      { value: "moderada", label: "Calvície moderada" },
+      { value: "extrema", label: "Calvície extrema" },
+      { value: "irregular", label: "Irregular", stopFlag: true },
+      { value: "total", label: "Total", stopFlag: true }
     ]
   },
+
   {
-    id: "hairLoss",
-    question: "Há quanto tempo você percebe a queda de cabelo?",
+    id: "F1_Q3_speed", question: "Você notou que a queda dos fios aconteceu lentamente ao longo do tempo ou foi algo repentino?",
     options: [
-      { value: "recent", label: "Menos de 6 meses" },
-      { value: "moderate", label: "6 meses a 2 anos" },
-      { value: "long", label: "Mais de 2 anos" },
-      { value: "progressive", label: "É progressiva ao longo dos anos" }
+      { value: "lenta", label: "Sim, a queda está piorando lentamente." },
+      { value: "repentina", label: "Não, a queda foi repentina", stopFlag: true }
     ]
   },
+
   {
-    id: "pattern",
-    question: "Como você descreveria o padrão da queda?",
+    id: "F1_Q4_scalp", question: "Qual das opções abaixo melhor define as características naturais do seu couro cabeludo e fios?",
     options: [
-      { value: "receding", label: "Entradas/linha frontal recuando" },
-      { value: "crown", label: "Topo da cabeça/coroa" },
-      { value: "diffuse", label: "Queda difusa (geral)" },
-      { value: "patches", label: "Áreas específicas/manchas" }
+      { value: "oleoso", label: "Oleoso" },
+      { value: "seco", label: "Seco" },
+      { value: "misto", label: "Misto" },
+      { value: "nao_sei", label: "Não sei" }
     ]
   },
+
   {
-    id: "family",
-    question: "Há histórico de calvície na família?",
+    id: "F1_Q5_family", question: "Há casos conhecidos de calvície entre seus familiares próximos (pais, avós ou irmãos)?",
     options: [
-      { value: "yes-father", label: "Sim, do lado paterno" },
-      { value: "yes-mother", label: "Sim, do lado materno" },
-      { value: "yes-both", label: "Sim, em ambos os lados" },
-      { value: "no", label: "Não há histórico" }
+      { value: "sim", label: "Sim" },
+      { value: "nao", label: "Não" },
+      { value: "nao_sei", label: "Não sei" }
     ]
   },
+
   {
-    id: "previous",
-    question: "Já tentou algum tratamento anteriormente?",
+    id: "F1_Q6_goal", question: "Qual é o seu principal objetivo ao iniciar este protocolo de tratamento?",
     options: [
-      { value: "no", label: "Não, é meu primeiro tratamento" },
-      { value: "otc", label: "Sim, produtos de farmácia" },
-      { value: "prescription", label: "Sim, medicamentos prescritos" },
-      { value: "natural", label: "Sim, tratamentos naturais" }
+      { value: "recuperar", label: "Recuperar o meu cabelo" },
+      { value: "impedir", label: "Impedir que a calvície aumentar" },
+      { value: "recuperar_impedir", label: "Recuperar e impedir a calvície" }
     ]
   },
+
+  // FASE 2
+
   {
-    id: "health",
-    question: "Você tem alguma condição de saúde?",
+    id: "F2_Q7_irritation", question: "Recentemente, você notou alguma alteração, irritação ou doença no couro cabeludo ou na pele?",
+    options: [{ value: "sim", label: "Sim" }, { value: "nao", label: "Não" }]
+  },
+
+  {
+    id: "F2_Q8_symptom", question: "Poderia especificar qual sintoma ou condição você identificou?",
     options: [
-      { value: "none", label: "Nenhuma condição" },
-      { value: "thyroid", label: "Problemas de tireoide" },
-      { value: "hormonal", label: "Distúrbios hormonais" },
-      { value: "other", label: "Outras condições" }
+      { value: "dor_vermelhidao", label: "Dor/vermelhidão" },
+      { value: "coceira", label: "Coceira" },
+      { value: "caspa", label: "Caspa" },
+      { value: "psoriase", label: "Psoríase" },
+      { value: "queimadura", label: "Queimadura solar" },
+      { value: "queda_pelos", label: "Queda de pelos do corpo", stopFlag: true },
+      { value: "outros", label: "Outros" }
     ]
   },
+
   {
-    id: "photos",
-    question: "Faça upload de fotos do seu couro cabeludo",
-    type: "photos",
-    photoLabels: ["Frente", "Topo", "Atrás", "Laterais"]
+    id: "F2_Q9_consult", question: "Você chegou a passar por uma consulta médica presencial para avaliar essa dor ou vermelhidão?",
+    options: [
+      { value: "sim", label: "Sim" },
+      { value: "nao", label: "Não", stopFlag: true }
+    ]
+  },
+
+  {
+    id: "F2_Q10_steroids", question: "Você utiliza ou fez uso recente de esteroides anabolizantes para performance ou estética?",
+    options: [{ value: "sim", label: "Sim" }, { value: "nao", label: "Não" }]
+  },
+
+  {
+    id: "F2_Q11_prev_treat", question: "Você já realizou algum tratamento medicamentoso prévio contra a calvície?",
+    options: [{ value: "sim", label: "Sim" }, { value: "nao", label: "Não" }]
+  },
+
+  // Q12: Substâncias (Múltipla Escolha)
+  {
+    id: "F2_Q12_substance", question: "Quais destas substâncias ou medicamentos você utilizou por mais tempo?",
+    type: "checkbox", // [ALTERADO] Tipo Checkbox
+    options: [
+      { value: "minoxidil_5", label: "Minoxidil 5%" },
+      { value: "minoxidil_oral", label: "Minoxidil oral" },
+      { value: "finasterida_1mg", label: "Finasterida 1mg" },
+      { value: "finasterida_topica", label: "Finasterida tópica" },
+      { value: "dutasterida", label: "Dutasterida 0.5mg" },
+      { value: "saw_palmetto", label: "Saw Palmetto" },
+      { value: "biotina", label: "Biotina ou vitaminas" },
+      { value: "shampoo", label: "Shampoo" },
+      { value: "outros", label: "Outros" }
+    ]
+  },
+
+  {
+    id: "F2_Q13_results", question: "Como você avalia os resultados e a sua experiência geral com o tratamento prévio?",
+    options: [
+      { value: "eficaz_sem", label: "Foi eficaz, sem efeitos colaterais" },
+      { value: "eficaz_com", label: "Foi eficaz, com efeitos colaterais" },
+      { value: "nao_eficaz", label: "Não foi eficaz" }
+    ]
+  },
+
+  // Q14: Condições de Saúde (Múltipla Escolha)
+  {
+    id: "F2_Q14_health_cond", question: "Você possui diagnóstico ou histórico de alguma das condições de saúde listadas abaixo?",
+    type: "checkbox", // [ALTERADO] Tipo Checkbox
+    options: [
+      { value: "baixo_libido", label: "Baixo libido ou disfunção erétil" },
+      { value: "ginecomastia", label: "Ginecomastia" },
+      { value: "cardiaca", label: "Doença cardíaca" },
+      { value: "renal", label: "Doença renal" },
+      { value: "cancer", label: "Câncer" },
+      { value: "hepatica", label: "Doença hepática" },
+      { value: "depressao", label: "Depressão, ansiedade ou síndrome do pânico", stopFlag: true },
+      { value: "covid", label: "COVID" },
+      { value: "nenhuma", label: "Nenhuma dessas" }
+    ]
+  },
+
+  {
+    id: "F2_Q15_allergy", question: "Você tem conhecimento de alergia ou hipersensibilidade a algum destes compostos?",
+    options: [
+      { value: "minoxidil", label: "Minoxidil" },
+      { value: "finasterida", label: "Finasterida" },
+      { value: "dutasterida", label: "Dutasterida" },
+      { value: "saw_palmetto", label: "Saw Palmetto" },
+      { value: "lactose", label: "Lactose" },
+      { value: "nenhuma", label: "Nenhuma" }
+    ]
+  },
+
+  {
+    id: "F2_Q16_intervention", question: "Considerando as opções abaixo, qual nível de intervenção você prefere para o seu tratamento?",
+    options: [
+      { value: "dutasterida", label: "Medicamento mais eficaz disponível (Dutasterida)" },
+      { value: "finasterida", label: "Medicamento mais prescrito (Finasterida)" },
+      { value: "saw_palmetto", label: "Medicamento natural, mas com menor eficácia (Saw Palmetto)" }
+    ]
+  },
+
+  {
+    id: "F2_Q17_minox_format", question: "Caso o Minoxidil seja indicado para você, em qual formato prefere utilizá-lo?",
+    options: [
+      { value: "comprimido", label: "Comprimido (Mais eficaz)" },
+      { value: "spray", label: "Spray (Deve ser passado 2x ao dia diretamente no couro cabeludo)" },
+      { value: "sem_preferencia", label: "Não tenho preferência" }
+    ]
+  },
+
+  {
+    id: "F2_Q18_pets", question: "Você convive com animais de estimação (cães ou gatos) em sua residência?",
+    options: [{ value: "sim", label: "Sim" }, { value: "nao", label: "Não" }]
+  },
+
+  {
+    id: "F2_Q19_priority", question: "O que você prioriza na sua rotina diária de cuidados?",
+    options: [
+      { value: "praticidade", label: "Praticidade" },
+      { value: "efetividade", label: "Efetividade" },
+      { value: "brando", label: "Brando" }
+    ]
   }
 ];
 
 const Questionnaire = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [photos, setPhotos] = useState<Record<string, File[]>>({});
   const [showResults, setShowResults] = useState(false);
+  const [showRedFlag, setShowRedFlag] = useState(false);
   const navigate = useNavigate();
 
-  const progress = ((currentStep + 1) / questions.length) * 100;
+  // Lógica para determinar as perguntas visíveis (Mantida)
+  const visibleQuestions = useMemo(() => {
+    let qList = [];
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i];
 
-  const handleAnswer = (value: string) => {
-    setAnswers({ ...answers, [questions[currentStep].id]: value });
-  };
+      // Jumps (Mantidos)
+      if (q.id === "F2_Q8_symptom" || q.id === "F2_Q9_consult") {
+        if (answers["F2_Q7_irritation"] === "nao") continue;
+      }
+      if (q.id === "F2_Q9_consult") {
+        if (answers["F2_Q8_symptom"] !== "dor_vermelhidao") continue;
+      }
+      if (q.id === "F2_Q12_substance" || q.id === "F2_Q13_results") {
+        if (answers["F2_Q11_prev_treat"] === "nao") continue;
+      }
 
-  const handlePhotoUpload = (index: number, file: File | null) => {
-    const currentPhotos = photos[questions[currentStep].id] || [];
-    const newPhotos = [...currentPhotos];
-    
-    if (file) {
-      newPhotos[index] = file;
-    } else {
-      newPhotos.splice(index, 1);
+      qList.push(q);
     }
-    
-    setPhotos({ ...photos, [questions[currentStep].id]: newPhotos });
+    return qList;
+  }, [answers]);
+
+  const currentQuestion = visibleQuestions[currentStep];
+  const totalSteps = visibleQuestions.length;
+  const progress = ((currentStep + 1) / totalSteps) * 100;
+
+  // 1. Lógica para respostas únicas (Rádio)
+  const handleAnswer = (value: string) => {
+    setAnswers({ ...answers, [currentQuestion.id]: value });
   };
 
-  const getPhotoPreview = (index: number): string | null => {
-    const currentPhotos = photos[questions[currentStep].id] || [];
-    const file = currentPhotos[index];
-    return file ? URL.createObjectURL(file) : null;
+  // 2. [NOVA LÓGICA] Lógica para respostas múltiplas (Checkbox)
+  const handleMultipleAnswer = (value: string, isChecked: boolean) => {
+    const currentAnswer = answers[currentQuestion.id] || "";
+    // Transforma a string salva em um array, removendo vazios
+    const selectedValues = currentAnswer.split(',').filter(v => v !== '');
+
+    let newSelectedValues: string[];
+
+    if (isChecked) {
+      // Adiciona valor se marcado e não estiver presente
+      if (!selectedValues.includes(value)) {
+        newSelectedValues = [...selectedValues, value];
+      } else {
+        newSelectedValues = selectedValues;
+      }
+    } else {
+      // Remove valor se desmarcado
+      newSelectedValues = selectedValues.filter(v => v !== value);
+    }
+
+    // Salva o novo array como uma string separada por vírgulas
+    setAnswers({ ...answers, [currentQuestion.id]: newSelectedValues.join(',') });
   };
+
 
   const handleNext = () => {
-    if (currentStep < questions.length - 1) {
-      setCurrentStep(currentStep + 1);
+    const currentAnswerValue = answers[currentQuestion.id];
+
+    // 1. Verificar Flag Vermelha (Funciona para radio e checkbox, pois verifica a string)
+    const option = currentQuestion.options?.find(opt => currentAnswerValue.includes(opt.value) && opt.stopFlag);
+    if (option) { // Verifica se alguma opção selecionada tem a flag vermelha
+      setShowRedFlag(true);
+      return;
+    }
+
+    let nextStep = currentStep + 1;
+
+    // 2. Lógica de Navegação
+    if (nextStep < totalSteps) {
+      setCurrentStep(nextStep);
     } else {
-      // Save submission to localStorage so doctors can review later
+      // Finalização (Mantida)
       try {
         const raw = localStorage.getItem("submissions");
         const submissions = raw ? JSON.parse(raw) : [];
@@ -145,7 +304,7 @@ const Questionnaire = () => {
         submissions.unshift(submission);
         localStorage.setItem("submissions", JSON.stringify(submissions));
       } catch (e) {
-        // ignore storage errors
+        // ignora erros de armazenamento
       }
 
       setShowResults(true);
@@ -161,34 +320,79 @@ const Questionnaire = () => {
   };
 
   const getRecommendation = () => {
-    // Lógica simples de recomendação baseada nas respostas
-    const hasLongHistory = answers.hairLoss === "long" || answers.hairLoss === "progressive";
-    const hasFamilyHistory = answers.family?.includes("yes");
-    
-    if (hasLongHistory && hasFamilyHistory) {
+    // Lógica de recomendação (Mantida)
+    const hasFamilyHistory = answers.F1_Q5_family === "sim";
+    const prioritizesEfficacy = answers.F2_Q19_priority === "efetividade" || answers.F2_Q16_intervention === "dutasterida";
+
+    if (hasFamilyHistory && prioritizesEfficacy) {
       return {
-        title: "Tratamento Intensivo Recomendado",
-        description: "Baseado em suas respostas, recomendamos um tratamento combinado com bloqueador de DHT e estimulador de crescimento.",
-        products: ["Finasterida 1mg", "Minoxidil 5%", "Vitaminas capilares"]
+        title: "Tratamento Intensivo (Máxima Eficácia)",
+        description: "Suas prioridades e histórico sugerem um protocolo que visa a máxima eficácia, ideal para casos com predisposição genética.",
+        products: ["Dutasterida 0.5mg", "Minoxidil Oral", "Protocolo de acompanhamento"]
       };
-    } else if (hasLongHistory || hasFamilyHistory) {
+    } else if (answers.F1_Q6_goal === "recuperar") {
       return {
-        title: "Tratamento Moderado Recomendado",
-        description: "Um tratamento com foco em estabilização e crescimento gradual seria ideal para seu caso.",
-        products: ["Minoxidil 5%", "Vitaminas capilares", "Shampoo especial"]
+        title: "Tratamento com Foco em Recuperação",
+        description: "Recomendamos um tratamento combinado com foco em estimular o crescimento e bloquear a progressão da queda.",
+        products: ["Finasterida 1mg", "Minoxidil 5%", "Vitaminas capilares"]
       };
     } else {
       return {
-        title: "Tratamento Preventivo Recomendado",
-        description: "Recomendamos um protocolo preventivo para manter a saúde capilar e evitar progressão.",
-        products: ["Minoxidil 3%", "Vitaminas capilares"]
+        title: "Protocolo Estabilizador e Preventivo",
+        description: "Um protocolo focado em estabilizar a queda e manter a saúde capilar atual é o mais indicado neste momento.",
+        products: ["Saw Palmetto", "Minoxidil Tópico 3%", "Shampoo especial"]
       };
     }
   };
 
+  // Telas de Resultados (Mantidas)
+
+  if (showRedFlag) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-12">
+          <Card className="max-w-3xl mx-auto border-destructive border-4">
+            <CardContent className="p-8 text-center space-y-6">
+              <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center mx-auto">
+                <AlertTriangle className="w-12 h-12 text-destructive" />
+              </div>
+
+              <h2 className="text-3xl font-bold text-destructive">
+                Atenção! Necessária Avaliação Médica Urgente
+              </h2>
+
+              <p className="text-lg text-muted-foreground">
+                Sua resposta indica uma condição que **exige prioridade clínica**.
+              </p>
+
+              <div className="bg-destructive/10 rounded-lg p-6 space-y-3">
+                <p className="font-semibold text-destructive">
+                  Não podemos prosseguir com o protocolo online.
+                </p>
+                <p className="text-sm text-destructive/80">
+                  É fundamental que um médico revise seu caso imediatamente para descartar ou tratar causas subjacentes graves.
+                </p>
+              </div>
+
+              <div className="space-y-3 pt-4">
+                <Button size="lg" className="w-full sm:w-auto bg-destructive hover:bg-destructive/80">
+                  Entrar em Contato com Suporte Agora
+                </Button>
+                <Button variant="ghost" onClick={() => navigate("/")} className="w-full sm:w-auto">
+                  Voltar para a Home
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   if (showResults) {
     const recommendation = getRecommendation();
-    
+
     return (
       <div className="min-h-screen bg-background">
         <Header />
@@ -198,11 +402,11 @@ const Questionnaire = () => {
               <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
                 <CheckCircle className="w-12 h-12 text-primary" />
               </div>
-              
+
               <h2 className="text-3xl font-bold text-foreground">
                 Avaliação Completa!
               </h2>
-              
+
               <div className="bg-secondary/30 rounded-lg p-6 text-left space-y-4">
                 <h3 className="text-2xl font-semibold text-primary">
                   {recommendation.title}
@@ -210,7 +414,7 @@ const Questionnaire = () => {
                 <p className="text-muted-foreground">
                   {recommendation.description}
                 </p>
-                
+
                 <div className="space-y-2">
                   <p className="font-semibold text-foreground">Produtos recomendados:</p>
                   <ul className="space-y-2">
@@ -242,21 +446,27 @@ const Questionnaire = () => {
     );
   }
 
-  const currentQuestion = questions[currentStep];
-  const hasAnswer = currentQuestion.type === "photos" 
-    ? (photos[currentQuestion.id]?.length === currentQuestion.photoLabels?.length)
-    : answers[currentQuestion.id] !== undefined;
+  // ===============================================
+  // TELA DO QUESTIONÁRIO (Renderização)
+  // ===============================================
+
+  if (!currentQuestion) {
+    return <NotFound />;
+  }
+
+  // Verifica se a resposta não está vazia
+  const hasAnswer = !!answers[currentQuestion.id];
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto">
           <div className="mb-8">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-muted-foreground">
-                Pergunta {currentStep + 1} de {questions.length}
+                Pergunta {currentStep + 1} de {totalSteps}
               </span>
               <span className="text-sm font-semibold text-primary">
                 {Math.round(progress)}%
@@ -271,55 +481,38 @@ const Questionnaire = () => {
                 {currentQuestion.question}
               </h2>
 
-              {currentQuestion.type === "photos" ? (
-                <div className="space-y-4">
-                  <p className="text-muted-foreground">
-                    Por favor, faça upload de fotos claras do seu couro cabeludo de diferentes ângulos.
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {currentQuestion.photoLabels?.map((label, index) => (
-                      <div key={label} className="space-y-2">
-                        <Label className="text-foreground">{label}</Label>
-                        <div className="relative">
-                          {getPhotoPreview(index) ? (
-                            <div className="relative aspect-video rounded-lg overflow-hidden border-2 border-primary bg-muted">
-                              <img
-                                src={getPhotoPreview(index)!}
-                                alt={label}
-                                className="w-full h-full object-cover"
-                              />
-                              <Button
-                                variant="destructive"
-                                size="icon"
-                                className="absolute top-2 right-2 h-8 w-8"
-                                onClick={() => handlePhotoUpload(index, null)}
-                              >
-                                <X className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          ) : (
-                            <label className="flex flex-col items-center justify-center aspect-video rounded-lg border-2 border-dashed border-border hover:border-primary transition-colors cursor-pointer bg-muted/50">
-                              <Upload className="h-8 w-8 text-muted-foreground mb-2" />
-                              <span className="text-sm text-muted-foreground">
-                                Clique para fazer upload
-                              </span>
-                              <Input
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0];
-                                  if (file) handlePhotoUpload(index, file);
-                                }}
-                              />
-                            </label>
-                          )}
-                        </div>
+              {/* [NOVA RENDERIZAÇÃO] Checkbox ou RadioGroup */}
+              {currentQuestion.type === "checkbox" ? (
+                // Renderização para Múltipla Escolha (Checkbox)
+                <div className="space-y-3">
+                  {currentQuestion.options?.map((option) => {
+                    const isChecked = answers[currentQuestion.id]?.includes(option.value);
+
+                    return (
+                      <div
+                        key={option.value}
+                        className="flex items-center space-x-3 border border-border rounded-lg p-4 hover:border-primary transition-colors cursor-pointer"
+                        // Chama o handler de checkbox
+                        onClick={() => handleMultipleAnswer(option.value, !isChecked)}
+                      >
+                        <Checkbox
+                          id={option.value}
+                          checked={isChecked}
+                          // Previne que o clique do Checkbox cause um segundo toggle
+                          onCheckedChange={(checked) => handleMultipleAnswer(option.value, checked as boolean)}
+                        />
+                        <Label
+                          htmlFor={option.value}
+                          className="flex-1 cursor-pointer text-foreground"
+                        >
+                          {option.label}
+                        </Label>
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })}
                 </div>
               ) : (
+                // Renderização para Escolha Única (RadioGroup - tipo padrão)
                 <RadioGroup
                   value={answers[currentQuestion.id] || ""}
                   onValueChange={handleAnswer}
@@ -357,7 +550,7 @@ const Questionnaire = () => {
                   disabled={!hasAnswer}
                   className="flex-1"
                 >
-                  {currentStep === questions.length - 1 ? "Finalizar" : "Próxima"}
+                  {currentStep === totalSteps - 1 ? "Finalizar" : "Próxima"}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </div>
