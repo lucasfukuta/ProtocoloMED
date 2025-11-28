@@ -7,11 +7,20 @@ import Index from "./pages/Index";
 import Questionnaire from "./pages/Questionnaire";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import { ClientDashboard } from "./pages/ClientDashboard";
 import { AuthProvider } from "@/auth/AuthProvider";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import DoctorDashboard from "./pages/DoctorDashboard";
 
 const queryClient = new QueryClient();
+
+// [NEW] Placeholder temporário para o dashboard médico.
+// Este componente deverá ser movido para um arquivo separado (ex: ./pages/MedicoDashboard.tsx).
+const MedicoDashboard = () =>
+  <div className="p-8">
+    <h1 className="text-3xl font-bold">Dashboard Médico (Em Construção)</h1>
+    <p className="text-muted-foreground">O acesso está protegido para o perfil 'doctor'.</p>
+  </div>;
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -23,15 +32,29 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/questionario" element={<Questionnaire />} />
+            {/*<Route path="/questionario" element={<Questionnaire />} />*/}
+
+
+            {/* Dashboard do Paciente */}
             <Route
-              path="/dashboard"
+              path="/ClientDashboard"
               element={
-                <ProtectedRoute requireRole="doctor">
-                  <Dashboard />
+                <ProtectedRoute requireRole="patient">
+                  <ClientDashboard />
                 </ProtectedRoute>
               }
             />
+
+            {/* Dashboard do Médico (Usando o Placeholder) */}
+            <Route
+              path="/DoctorDashboard"
+              element={
+                <ProtectedRoute requireRole="doctor">
+                  <DoctorDashboard />
+                </ProtectedRoute>
+              }
+            />
+
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
