@@ -18,7 +18,7 @@ export const Footer = () => {
                         </p>
                     </div>
 
-                    {/* Lado Direito: Contatos (Conforme solicitado) */}
+                    {/* Lado Direito: Contatos */}
                     <div className="flex flex-col items-center md:items-end space-y-3">
                         <h3 className="font-semibold text-lg mb-1">Fale Conosco</h3>
 
