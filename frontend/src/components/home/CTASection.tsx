@@ -8,14 +8,14 @@ export const CTASection = () => {
       <div className="container mx-auto px-4 text-center">
         <div className="max-w-3xl mx-auto space-y-6">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground">
-            Pronto para recuperar seus cabelos?
+            Pronto para recuperar sua confiança?
           </h2>
           <p className="text-xl text-primary-foreground/90">
             Comece sua avaliação gratuita agora e receba seu plano de tratamento personalizado
           </p>
           <Link to="/questionario">
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               variant="secondary"
               className="text-lg px-8 py-6 h-auto group"
             >

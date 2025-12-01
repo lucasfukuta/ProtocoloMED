@@ -7,10 +7,15 @@ import Index from "./pages/Index";
 import Questionnaire from "./pages/Questionnaire";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
+import AboutUs from "./pages/AboutUs";
 import { ClientDashboard } from "./pages/ClientDashboard";
 import { AuthProvider } from "@/auth/AuthProvider";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import DoctorDashboard from "./pages/DoctorDashboard";
+import Contact from "./pages/Contact";
+import UserProfile from "./pages/UserProfile";
+import ClientProtocol from "./pages/ClientProtocol";
 
 const queryClient = new QueryClient();
 
@@ -32,8 +37,18 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/questionario" element={<Questionnaire />} />
-
+            <Route path="/sobre-nos" element={<AboutUs />} />
+            <Route path="/contato" element={<Contact />} />
+            <Route
+              path="/perfil"
+              element={
+                <ProtectedRoute requireRole="patient">
+                  <UserProfile />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Dashboard do Paciente */}
             <Route
@@ -41,6 +56,16 @@ const App = () => (
               element={
                 <ProtectedRoute requireRole="patient">
                   <ClientDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Protocolo do Cliente */}
+            <Route
+              path="/ClientProtocol"
+              element={
+                <ProtectedRoute requireRole="patient">
+                  <ClientProtocol />
                 </ProtectedRoute>
               }
             />

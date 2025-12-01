@@ -13,23 +13,26 @@ import Logo from "/LOGO.png";
 
 export const Header = () => {
   return (
-    // [CHANGE 1] Adicionado 'relative' para o posicionamento absoluto do logo
+    // posicionamento absoluto do logo
     <header className="border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50 relative">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
 
-        {/* [CHANGE 2] Dropdown Menu MOVIDO para o início do container flex (Esquerda) */}
+        {/* Dropdown Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
-              <Menu className="h-5 w-5" />
+              <Menu className="h-10 w-10" />
               <span className="sr-only">Menu de navegação</span>
             </Button>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="start" className="w-48">
-            {/* Opções de navegação do Menu (mantidas as classes de visibilidade) */}
+            {/* Opções de navegação do Menu */}
             <DropdownMenuItem asChild className="md:hidden">
               <Link to="/login">Login</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild className="md:hidden">
+              <Link to="/register">Cadastre-se</Link>
             </DropdownMenuItem>
 
             <DropdownMenuItem asChild>
@@ -40,6 +43,9 @@ export const Header = () => {
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link to="/sobre-nos">Sobre Nós</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/contato">Contato</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link to="/login" className="hidden md:block text-sm text-muted-foreground hover:text-foreground">
@@ -58,11 +64,11 @@ export const Header = () => {
           <img
             src={Logo}
             alt="Logo ProtocoloMED"
-            className="h-20 w-auto" // Aumento do tamanho (h-10 -> h-16)
+            className="h-20 w-auto"
           />
         </Link>
 
-        {/* Bloco de Ações/Login (Mantido à Direita) */}
+        {/* Bloco de Ações/Login (Direita) */}
         <div className="flex items-center gap-3">
           {/* Botão Questionário Principal */}
           <Link to="/questionario">
@@ -74,6 +80,9 @@ export const Header = () => {
           {/* Link Entrar/Login: Visível apenas em Desktop */}
           <Link to="/login" className="hidden md:block text-sm text-muted-foreground hover:text-foreground">
             Entrar
+          </Link>
+          <Link to="/register" className="hidden md:block text-sm text-muted-foreground hover:text-foreground">
+            Cadastre-se
           </Link>
         </div>
       </div>

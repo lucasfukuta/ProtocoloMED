@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/auth/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const { login } = useAuth();
@@ -80,9 +81,17 @@ const Login = () => {
                 Entrar
               </Button>
             </div>
+
+            <div className="text-center text-sm">
+              Não tem uma conta?{" "}
+              <Link to="/register" className="text-primary hover:underline">
+                Cadastre-se
+              </Link>
+            </div>
           </form>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

@@ -189,7 +189,7 @@ const MedicoDashboard = () => {
                                     <Separator className="my-4" />
 
                                     <div className="space-y-2">
-                                        <p className="font-medium">Nível de Risco:</p>
+                                        <p className="font-medium">Estagio de Queda:</p>
                                         <span className={`text-lg ${getRiskColor(selectedPatient.riskLevel)}`}>
                                             {selectedPatient.riskLevel}
                                         </span>

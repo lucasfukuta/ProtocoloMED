@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
 import { BenefitsSection } from "@/components/home/BenefitsSection";
 import { ResultsSection } from "@/components/home/ResultsSection";
@@ -16,13 +17,7 @@ const Index = () => {
         <HowItWorksSection />
         <CTASection />
       </main>
-      <footer className="bg-muted py-8 text-center">
-        <div className="container mx-auto px-4">
-          <p className="text-muted-foreground">
-            © 2024 PROTOCOLOMED. Todos os direitos reservados.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

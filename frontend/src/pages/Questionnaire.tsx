@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -160,6 +161,7 @@ const questions: Question[] = [
 
   {
     id: "F2_Q15_allergy", question: "Você tem conhecimento de alergia ou hipersensibilidade a algum destes compostos?",
+    type: "checkbox", // [ALTERADO] Tipo Checkbox
     options: [
       { value: "minoxidil", label: "Minoxidil" },
       { value: "finasterida", label: "Finasterida" },
@@ -359,7 +361,7 @@ const Questionnaire = () => {
               </div>
 
               <h2 className="text-3xl font-bold text-destructive">
-                Atenção! Necessária Avaliação Médica Urgente
+                Atenção! Necessária Avaliação Médica Presencial
               </h2>
 
               <p className="text-lg text-muted-foreground">
@@ -558,6 +560,7 @@ const Questionnaire = () => {
           </Card>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

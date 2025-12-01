@@ -14,7 +14,7 @@ export const HeroSection = () => {
           <p className="text-lg text-muted-foreground">
             Tratamento capilar personalizado, prescrito por especialistas. 100% online com acompanhamento médico contínuo.
           </p>
-          
+
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <CheckCircle className="text-primary w-5 h-5" />
@@ -29,18 +29,19 @@ export const HeroSection = () => {
               <span className="text-foreground">Acompanhamento contínuo</span>
             </div>
           </div>
-
-          <Link to="/questionario">
-            <Button size="lg" className="text-lg px-8 py-6 h-auto">
-              Começar Avaliação
-            </Button>
-          </Link>
+          <div className="flex justify-center">
+            <Link to="/questionario">
+              <Button size="lg" className="text-lg px-8 py-6 h-auto">
+                Começar Avaliação
+              </Button>
+            </Link>
+          </div>
         </div>
 
         <div className="relative">
-          <img 
-            src={heroImage} 
-            alt="Clínica moderna de tratamento capilar" 
+          <img
+            src={heroImage}
+            alt="Clínica moderna de tratamento capilar"
             className="rounded-2xl shadow-2xl w-full"
           />
         </div>

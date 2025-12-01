@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAuth } from "@/auth/AuthProvider"; // Para a função logout
-import { ChevronRight, Heart, TrendingUp, Calendar, UserCheck, Upload, Image, LogOut } from "lucide-react";
+import { ChevronRight, Heart, TrendingUp, Calendar, UserCheck, Upload, LogOut } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { useState } from "react";
 
@@ -102,15 +102,23 @@ export const ClientDashboard = () => {
             <h1 className="text-3xl font-bold">Olá, {userName}!</h1>
             <p className="text-lg text-muted-foreground">Bem-vindo à sua central de saúde personalizada.</p>
           </div>
-          {/* Botão Sair/Logout */}
-          <Button
-            onClick={logout}
-            variant="outline"
-            className="flex items-center gap-2"
-          >
-            <LogOut className="h-4 w-4" />
-            Sair
-          </Button>
+          {/* Botões de Ação */}
+          <div className="flex gap-2">
+            <Link to="/perfil">
+              <Button variant="outline" className="flex items-center gap-2">
+                <UserCheck className="h-4 w-4" />
+                Meu Perfil
+              </Button>
+            </Link>
+            <Button
+              onClick={logout}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <LogOut className="h-4 w-4" />
+              Sair
+            </Button>
+          </div>
         </div>
 
         <Alert className="bg-primary text-primary-foreground border-primary/50">
@@ -118,7 +126,7 @@ export const ClientDashboard = () => {
           <AlertTitle>Seu Próximo Passo é Importante!</AlertTitle>
           <AlertDescription className="flex items-center justify-between">
             <span className="font-semibold">Sua próxima consulta de acompanhamento está agendada para 05/Dez.</span>
-            <Link to="/consultas">
+            <Link to="/ClientProtocol">
               <Button variant="secondary" className="bg-white text-primary hover:bg-gray-100 ml-4">
                 Ver Detalhes
               </Button>
@@ -134,7 +142,7 @@ export const ClientDashboard = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Nível de Risco</CardTitle>
+            <CardTitle className="text-sm font-medium">Estágio de Queda</CardTitle>
             <Heart className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
@@ -150,10 +158,13 @@ export const ClientDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="text-xl font-bold">Dra. Ana Costa</div>
-            <p className="text-xs text-muted-foreground mt-1">Especialista em Urologia.</p>
+            <p className="text-xs text-muted-foreground mt-1">Especialista em Tricologia.</p>
           </CardContent>
-          <CardFooter>
-            <Link to="/perfil-medico" className="text-sm text-primary hover:underline">Ver Perfil</Link>
+          <CardFooter className="flex gap-2">
+            <Link to="/ClientProtocol">
+              <Button variant="outline" size="sm">Histórico de prescrição</Button>
+            </Link>
+            <Link to="/perfil-medico" className="text-sm text-primary hover:underline flex items-center">Ver Perfil</Link>
           </CardFooter>
         </Card>
 
@@ -181,7 +192,7 @@ export const ClientDashboard = () => {
 
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Histórico de Nível de Risco</CardTitle>
+            <CardTitle>Histórico de Evolução</CardTitle>
             <CardDescription>Visualização do seu progresso nos últimos 4 meses.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -232,8 +243,8 @@ export const ClientDashboard = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Seu Plano de Tratamento</CardTitle>
-            <CardDescription>Plano Ativo: Plano Essencial</CardDescription>
+            <CardTitle>Seu Protocolo de Tratamento</CardTitle>
+            <CardDescription>Protocolo Ativo: Plano Essencial</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-1">
@@ -247,7 +258,7 @@ export const ClientDashboard = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Link to="/plano-detalhes">
+            <Link to="/ClientProtocol">
               <Button variant="default" className="w-full">
                 Gerenciar Plano
               </Button>
