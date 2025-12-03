@@ -9,29 +9,29 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AboutUs from "./pages/AboutUs";
-import { ClientDashboard } from "./pages/ClientDashboard";
+import ClientDashboard from "./pages/Client/ClientDashboard";
 import { AuthProvider } from "@/auth/AuthProvider";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import DoctorDashboard from "./pages/DoctorDashboard";
+import DoctorDashboard from "./pages/Doctor/DoctorDashboard";
 import Contact from "./pages/Contact";
-import ClientProfile from "./pages/ClientProfile";
-import ClientProtocol from "./pages/ClientProtocol";
-import ClientSchedule from "./pages/ClientSchedule";
-import DoctorRecord from "./pages/DoctorRecord";
-import DoctorTelemedicine from "./pages/DoctorTelemedicine";
-import DoctorSchedule from "./pages/DoctorSchedule";
-import DoctorProfileSettings from "./pages/DoctorProfileSettings";
-import DoctorProfile from "./pages/DoctorProfile";
+import ClientProfile from "./pages/Client/ClientProfile";
+import ClientProtocol from "./pages/Client/ClientProtocol";
+import ClientSchedule from "./pages/Client/ClientSchedule";
+import DoctorRecord from "./pages/Doctor/DoctorRecord";
+import DoctorTelemedicine from "./pages/Doctor/DoctorTelemedicine";
+import DoctorSchedule from "./pages/Doctor/DoctorSchedule";
+import DoctorProfileSettings from "./pages/Doctor/DoctorProfileSettings";
+import DoctorProfile from "./pages/Doctor/DoctorProfile";
 
 const queryClient = new QueryClient();
 
 // [NEW] Placeholder temporário para o dashboard médico.
 // Este componente deverá ser movido para um arquivo separado (ex: ./pages/MedicoDashboard.tsx).
-const MedicoDashboard = () =>
-  <div className="p-8">
-    <h1 className="text-3xl font-bold">Dashboard Médico (Em Construção)</h1>
-    <p className="text-muted-foreground">O acesso está protegido para o perfil 'doctor'.</p>
-  </div>;
+// const MedicoDashboard = () =>
+//   <div className="p-8">
+//     <h1 className="text-3xl font-bold">Dashboard Médico (Em Construção)</h1>
+//     <p className="text-muted-foreground">O acesso está protegido para o perfil 'doctor'.</p>
+//   </div>;
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
