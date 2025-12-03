@@ -25,10 +25,10 @@ import Photo4 from "@/assets/Images/careca04.jpg";
 // ===============================================
 
 const progressChartData = [
-  { month: "Jan", score: 65 },
-  { month: "Fev", score: 62 },
-  { month: "Mar", score: 55 },
-  { month: "Abr", score: 48 },
+  { month: "Jan", score: 46 },
+  { month: "Fev", score: 52 },
+  { month: "Mar", score: 66 },
+  { month: "Abr", score: 73 },
 ];
 
 interface PhotoHistoryItem {
@@ -107,7 +107,7 @@ export const ClientDashboard = () => {
             <Link to="/perfil">
               <Button variant="outline" className="flex items-center gap-2">
                 <UserCheck className="h-4 w-4" />
-                Meu Perfil
+                Meu perfil
               </Button>
             </Link>
             <Button
@@ -123,7 +123,7 @@ export const ClientDashboard = () => {
 
         <Alert className="bg-primary text-primary-foreground border-primary/50">
           <Calendar className="h-4 w-4" />
-          <AlertTitle>Seu Próximo Passo é Importante!</AlertTitle>
+          <AlertTitle>Seu próximo passo é importante!</AlertTitle>
           <AlertDescription className="flex items-center justify-between">
             <span className="font-semibold">Sua próxima consulta de acompanhamento está agendada para 05/Dez.</span>
             <Link to="/agendamento">
@@ -142,7 +142,7 @@ export const ClientDashboard = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Estágio de Queda</CardTitle>
+            <CardTitle className="text-sm font-medium">Estágio de queda</CardTitle>
             <Heart className="h-4 w-4 text-destructive" />
           </CardHeader>
           <CardContent>
@@ -153,18 +153,22 @@ export const ClientDashboard = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Seu Médico</CardTitle>
+            <CardTitle className="text-sm font-medium">Seu médico</CardTitle>
             <UserCheck className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">Dra. Ana Costa</div>
-            <p className="text-xs text-muted-foreground mt-1">Especialista em Tricologia.</p>
+            <div className="text-xl font-bold">Dr. Protótipo Silva</div>
+            <p className="text-xs text-muted-foreground mt-1">Especialista em tricologia.</p>
           </CardContent>
-          <CardFooter className="flex gap-2">
-            <Link to="/SeuProtocolo">
-              <Button variant="outline" size="sm">Histórico de prescrição</Button>
+          <CardFooter className="flex flex-col items-start gap-2">
+            <Link to="/SeuProtocolo" className="w-full">
+              <Button variant="outline" size="sm" className="w-full">
+                Histórico de prescrição
+              </Button>
             </Link>
-            <Link to="/perfil-medico" className="text-sm text-primary hover:underline flex items-center">Ver Perfil</Link>
+            <Link to="/PerfilMedico" className="text-sm text-primary hover:underline flex items-center self-end justify-end">
+              Ver perfil
+            </Link>
           </CardFooter>
         </Card>
 
@@ -180,7 +184,7 @@ export const ClientDashboard = () => {
         <ActionCard
           title="Suporte Dedicado"
           description="Dúvidas? Fale com nossa equipe de saúde agora."
-          link="/suporte"
+          link="/contato"
           linkText="Falar por Chat"
           icon={Heart}
           color="text-orange-500"
@@ -192,7 +196,7 @@ export const ClientDashboard = () => {
 
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Histórico de Evolução</CardTitle>
+            <CardTitle>Histórico de evolução</CardTitle>
             <CardDescription>Visualização do seu progresso nos últimos 4 meses.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -243,24 +247,24 @@ export const ClientDashboard = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Seu Protocolo de Tratamento</CardTitle>
-            <CardDescription>Protocolo Ativo: Plano Essencial</CardDescription>
+            <CardTitle>Seu protocolo de tratamento</CardTitle>
+            <CardDescription>Protocolo ativo: plano essencial</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-1">
               <h4 className="text-sm font-medium leading-none">Status:</h4>
-              <p className="text-sm text-muted-foreground font-semibold">Em Andamento</p>
+              <p className="text-sm text-muted-foreground font-semibold">Em andamento</p>
             </div>
             <Separator />
             <div className="space-y-1">
-              <h4 className="text-sm font-medium leading-none">Próxima Entrega:</h4>
-              <p className="text-sm text-muted-foreground">15 de Dezembro</p>
+              <h4 className="text-sm font-medium leading-none">Próxima entrega:</h4>
+              <p className="text-sm text-muted-foreground">15 de dezembro</p>
             </div>
           </CardContent>
           <CardFooter>
             <Link to="/SeuProtocolo">
               <Button variant="default" className="w-full">
-                Gerenciar Plano
+                Gerenciar plano
               </Button>
             </Link>
           </CardFooter>
@@ -273,7 +277,7 @@ export const ClientDashboard = () => {
         {/* Área 1: Upload de Fotos */}
         <Card className="lg:col-span-1">
           <CardHeader>
-            <CardTitle>Upload Semanal de Fotos</CardTitle>
+            <CardTitle>Upload semanal de fotos</CardTitle>
             <CardDescription>Mantenha seu médico atualizado com seu progresso visual.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -303,7 +307,7 @@ export const ClientDashboard = () => {
               disabled={!uploadedFile}
               className="w-full"
             >
-              Enviar Foto de Progresso
+              Enviar foto de progresso
             </Button>
           </CardFooter>
         </Card>
@@ -311,7 +315,7 @@ export const ClientDashboard = () => {
         {/* Área 2: Histórico de Fotos */}
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Histórico Visual ({photoHistory.length} registros)</CardTitle>
+            <CardTitle>Histórico visual ({photoHistory.length} registros)</CardTitle>
             <CardDescription>Suas fotos passadas para comparação e análise.</CardDescription>
           </CardHeader>
           <CardContent>

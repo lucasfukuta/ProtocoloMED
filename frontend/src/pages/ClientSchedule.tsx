@@ -30,13 +30,13 @@ const mockAppointments: Appointment[] = [
         id: "1",
         date: addDays(new Date(), 7),
         time: "09:00",
-        doctorName: "Dra. Ana Costa",
+        doctorName: "Dr. Protótipo Silva",
         consultationType: "Teleconsulta",
         status: "confirmed",
     },
     {
         id: "2",
-        date: addDays(new Date(), 14),
+        date: addDays(new Date(), 40),
         time: "14:30",
         doctorName: "Dr. Protótipo Silva",
         consultationType: "Teleconsulta",
@@ -158,7 +158,7 @@ const ClientSchedule = () => {
                                     <div className="flex items-center gap-2">
                                         <Clock className="h-4 w-4 text-muted-foreground" />
                                         <h3 className="text-sm font-semibold">
-                                            Horários Disponíveis para {format(selectedDate, "dd/MM/yyyy", { locale: ptBR })}
+                                            Horários disponíveis para {format(selectedDate, "dd/MM/yyyy", { locale: ptBR })}
                                         </h3>
                                     </div>
                                     <div className="grid grid-cols-4 gap-2">
@@ -191,7 +191,7 @@ const ClientSchedule = () => {
                             {/* Informações Selecionadas */}
                             {(selectedDate || selectedTime) && (
                                 <div className="bg-muted/50 p-4 rounded-lg space-y-2">
-                                    <h4 className="text-sm font-semibold text-muted-foreground">Resumo da Seleção:</h4>
+                                    <h4 className="text-sm font-semibold text-muted-foreground">Resumo da seleção:</h4>
                                     {selectedDate && (
                                         <p className="text-sm flex items-center gap-2">
                                             <CalendarIcon className="h-4 w-4" />
@@ -214,7 +214,7 @@ const ClientSchedule = () => {
                 <div className="space-y-6">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Minhas Consultas Agendadas</CardTitle>
+                            <CardTitle>Minhas consultas agendadas</CardTitle>
                             <CardDescription>
                                 Você tem {appointments.length} consulta{appointments.length !== 1 ? "s" : ""} marcada
                                 {appointments.length !== 1 ? "s" : ""}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -18,18 +19,20 @@ interface Patient {
     name: string;
     lastVisit: string;
     riskLevel: 'Baixo' | 'Moderado' | 'Alto';
+    nextAppointment: string;
 }
 
 // Dados de Exemplo para a Lista de Pacientes (mantido)
 const dummyPatients: Patient[] = [
-    { id: 'p001', name: 'Maria Silva', lastVisit: '10/Nov', riskLevel: 'Moderado' },
-    { id: 'p002', name: 'João Batista', lastVisit: '25/Out', riskLevel: 'Alto' },
-    { id: 'p003', name: 'Lucas Costa', lastVisit: '01/Dez', riskLevel: 'Baixo' },
-    { id: 'p004', name: 'Ana Souza', lastVisit: '20/Nov', riskLevel: 'Moderado' },
+    { id: 'p001', name: 'Maria Silva', lastVisit: '10/Nov', riskLevel: 'Moderado', nextAppointment: '15/Dez' },
+    { id: 'p002', name: 'João Batista', lastVisit: '25/Out', riskLevel: 'Alto', nextAppointment: '12/Dez' },
+    { id: 'p003', name: 'Lucas Costa', lastVisit: '01/Dez', riskLevel: 'Baixo', nextAppointment: '20/Jan' },
+    { id: 'p004', name: 'Ana Souza', lastVisit: '20/Nov', riskLevel: 'Moderado', nextAppointment: '18/Dez' },
 ];
 
 const MedicoDashboard = () => {
     const { user, logout } = useAuth();
+    const navigate = useNavigate();
     const [date, setDate] = useState<Date | undefined>(new Date());
     const [selectedPatient, setSelectedPatient] = useState<Patient | null>(dummyPatients[0]);
 
@@ -83,7 +86,7 @@ const MedicoDashboard = () => {
                 {/* ÁREA 1: INFORMAÇÕES PESSOAIS (com Foto) */}
                 <Card className="lg:col-span-1 h-fit">
                     <CardHeader>
-                        <CardTitle className="text-xl font-semibold">Meu Perfil</CardTitle>
+                        <CardTitle className="text-xl font-semibold">Meu perfil</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4 pt-6">
 
@@ -125,14 +128,14 @@ const MedicoDashboard = () => {
                                 <Input value={medicoInfo.email} readOnly />
                             </div>
                         </div>
-                        <Button variant="secondary" className="w-full">Editar Informações</Button>
+                        <Button variant="secondary" className="w-full" onClick={() => navigate("/medico/configuracoes")}>Editar informações</Button>
                     </CardContent>
                 </Card>
 
                 {/* ÁREA 2: CALENDÁRIO / AGENDAMENTOS (Mantido) */}
                 <Card className="lg:col-span-1 h-fit">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-xl font-semibold">Minha Agenda</CardTitle>
+                        <CardTitle className="text-xl font-semibold">Minha agenda</CardTitle>
                         <CalendarIcon className="h-5 w-5 text-primary" />
                     </CardHeader>
                     <CardContent className="pt-6 flex justify-center">
@@ -144,7 +147,9 @@ const MedicoDashboard = () => {
                         />
                     </CardContent>
                     <CardFooter>
-                        <Button variant="ghost" className="w-full">Ver Todos Agendamentos</Button>
+                        <Link to="/medico/agenda" className="w-full">
+                            <Button variant="ghost" className="w-full">Ver todos agendamentos</Button>
+                        </Link>
                     </CardFooter>
                 </Card>
 
@@ -153,7 +158,7 @@ const MedicoDashboard = () => {
 
                     <Card className="md:col-span-1">
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-xl font-semibold">Lista de Pacientes</CardTitle>
+                            <CardTitle className="text-xl font-semibold">Lista de pacientes</CardTitle>
                             <List className="h-5 w-5 text-primary" />
                         </CardHeader>
                         <CardContent className="pt-6">
@@ -178,18 +183,18 @@ const MedicoDashboard = () => {
 
                     <Card className="md:col-span-1">
                         <CardHeader>
-                            <CardTitle className="text-xl font-semibold">Detalhes do Paciente</CardTitle>
+                            <CardTitle className="text-xl font-semibold">Detalhes do paciente</CardTitle>
                         </CardHeader>
                         <CardContent className="pt-6 space-y-4">
                             {selectedPatient ? (
                                 <div>
                                     <h3 className="text-2xl font-bold mb-2">{selectedPatient.name}</h3>
-                                    <p className="text-sm text-muted-foreground">Última Visita: {selectedPatient.lastVisit}</p>
+                                    <p className="text-sm text-muted-foreground">Última visita: {selectedPatient.lastVisit}</p>
 
                                     <Separator className="my-4" />
 
                                     <div className="space-y-2">
-                                        <p className="font-medium">Estagio de Queda:</p>
+                                        <p className="font-medium">Estagio de queda:</p>
                                         <span className={`text-lg ${getRiskColor(selectedPatient.riskLevel)}`}>
                                             {selectedPatient.riskLevel}
                                         </span>
@@ -198,9 +203,23 @@ const MedicoDashboard = () => {
                                     <Separator className="my-4" />
 
                                     <div className="space-y-2">
+                                        <p className="font-medium">Próxima consulta:</p>
+                                        <span className="text-lg font-semibold text-primary">
+                                            {selectedPatient.nextAppointment}
+                                        </span>
+                                    </div>
+
+                                    <Separator className="my-4" />
+
+                                    <div className="space-y-2">
                                         <p className="font-medium">Ações:</p>
-                                        <Button className="w-full" variant="default">Ver Histórico Completo</Button>
-                                        <Button className="w-full" variant="outline">Próxima Consulta</Button>
+                                        <Button
+                                            className="w-full"
+                                            variant="default"
+                                            onClick={() => navigate(`/medico/paciente/${selectedPatient.id}`)}
+                                        >
+                                            Ver histórico completo
+                                        </Button>
                                     </div>
                                 </div>
                             ) : (

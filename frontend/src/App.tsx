@@ -17,6 +17,11 @@ import Contact from "./pages/Contact";
 import ClientProfile from "./pages/ClientProfile";
 import ClientProtocol from "./pages/ClientProtocol";
 import ClientSchedule from "./pages/ClientSchedule";
+import DoctorRecord from "./pages/DoctorRecord";
+import DoctorTelemedicine from "./pages/DoctorTelemedicine";
+import DoctorSchedule from "./pages/DoctorSchedule";
+import DoctorProfileSettings from "./pages/DoctorProfileSettings";
+import DoctorProfile from "./pages/DoctorProfile";
 
 const queryClient = new QueryClient();
 
@@ -60,8 +65,8 @@ const App = () => (
                   <ClientDashboard />
                 </ProtectedRoute>
               }
-            />
 
+            />
             {/* Protocolo do Cliente */}
             <Route
               path="/SeuProtocolo"
@@ -72,12 +77,63 @@ const App = () => (
               }
             />
 
+            {/* Perfil do medico */}
+            <Route
+              path="/PerfilMedico"
+              element={
+                <ProtectedRoute requireRole="patient">
+                  <DoctorProfile />
+                </ProtectedRoute>
+              }
+            />
+
+
             {/* Dashboard do Médico (Usando o Placeholder) */}
             <Route
               path="/DoctorDashboard"
               element={
                 <ProtectedRoute requireRole="doctor">
                   <DoctorDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Prontuário do Paciente */}
+            <Route
+              path="/medico/paciente/:id"
+              element={
+                <ProtectedRoute requireRole="doctor">
+                  <DoctorRecord />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Teleconsulta */}
+            <Route
+              path="/medico/teleconsulta/:id"
+              element={
+                <ProtectedRoute requireRole="doctor">
+                  <DoctorTelemedicine />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Agenda do Médico */}
+            <Route
+              path="/medico/agenda"
+              element={
+                <ProtectedRoute requireRole="doctor">
+                  <DoctorSchedule />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Configurações do Médico */}
+            <Route
+              path="/medico/configuracoes"
+              element={
+                <ProtectedRoute requireRole="doctor">
+                  <DoctorProfileSettings />
                 </ProtectedRoute>
               }
             />
