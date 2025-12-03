@@ -9,12 +9,12 @@ export const Footer = () => {
 
                     {/* Lado Esquerdo: Logo e Copyright */}
                     <div className="text-center md:text-left space-y-2">
-                        <h2 className="text-2xl font-bold tracking-tight">ProtocoloMED</h2>
+                        <h2 className="text-2xl font-bold tracking-tight">Protocolo MED</h2>
                         <p className="text-sm text-slate-400">
                             Transformando vidas através da saúde capilar.
                         </p>
                         <p className="text-xs text-slate-500 mt-4">
-                            © {new Date().getFullYear()} ProtocoloMED. Todos os direitos reservados.
+                            © {new Date().getFullYear()} Protocolo MED. Todos os direitos reservados.
                         </p>
                     </div>
 

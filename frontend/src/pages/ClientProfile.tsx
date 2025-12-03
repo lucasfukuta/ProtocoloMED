@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { User, Mail, Phone, MapPin, Save, CreditCard, Plus, Building2 } from "lucide-react";
 
-const UserProfile = () => {
+const ClientProfile = () => {
     const { toast } = useToast();
 
     // Mock initial data - in a real app this would come from an API/Context
@@ -81,7 +81,7 @@ const UserProfile = () => {
                     <Tabs defaultValue="personal" className="w-full">
                         <TabsList className="grid w-full grid-cols-2 mb-8">
                             <TabsTrigger value="personal">Dados Pessoais</TabsTrigger>
-                            <TabsTrigger value="payment">Pagamento & Banco</TabsTrigger>
+                            <TabsTrigger value="payment">Pagamento &amp; Banco</TabsTrigger>
                         </TabsList>
 
                         <TabsContent value="personal">
@@ -321,4 +321,4 @@ const UserProfile = () => {
     );
 };
 
-export default UserProfile;
+export default ClientProfile;

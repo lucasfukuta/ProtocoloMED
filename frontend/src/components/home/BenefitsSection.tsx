@@ -4,22 +4,22 @@ import { Card, CardContent } from "@/components/ui/card";
 const benefits = [
   {
     icon: Shield,
-    title: "Tratamento Seguro",
-    description: "Medicamentos aprovados e prescritos por dermatologistas certificados"
+    title: "Tratamento seguro",
+    description: "Medicamentos aprovados e prescritos por tricologista e nutricionista certificados"
   },
   {
     icon: Clock,
-    title: "100% Online",
+    title: "100% online",
     description: "Consulta, prescrição e entrega sem sair de casa"
   },
   {
     icon: Users,
-    title: "+50 mil pacientes",
+    title: "Diversos pacientes",
     description: "Milhares de pessoas já recuperaram seus cabelos conosco"
   },
   {
     icon: Award,
-    title: "Resultados Comprovados",
+    title: "Resultados comprovados",
     description: "Acompanhamento profissional em cada etapa do tratamento"
   }
 ];
@@ -30,7 +30,7 @@ export const BenefitsSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Por que escolher a PROTOCOLOMED?
+            Por que escolher a PROTOCOLO MED?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Tratamento capilar completo com acompanhamento médico especializado

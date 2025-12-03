@@ -32,7 +32,7 @@ export const HeroSection = () => {
           <div className="flex justify-center my-8">
             <Link to="/questionario">
               <Button size="lg" className="text-lg px-8 py-6 h-auto">
-                Começar Avaliação
+                Começar avaliação
               </Button>
             </Link>
           </div>

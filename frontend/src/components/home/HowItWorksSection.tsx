@@ -3,18 +3,18 @@ import { ClipboardCheck, Stethoscope, Package, TrendingUp } from "lucide-react";
 const steps = [
   {
     icon: ClipboardCheck,
-    title: "Avaliação Online",
+    title: "Avaliação online",
     description: "Responda nosso questionário médico detalhado sobre sua condição capilar"
   },
   {
     icon: Stethoscope,
-    title: "Análise Médica",
-    description: "Dermatologista revisa seu caso e prescreve o tratamento personalizado"
+    title: "Análise médica",
+    description: "Tricologista e nutricionista revisam seu caso e prescreve o tratamento personalizado"
   },
   {
     icon: Package,
-    title: "Receba em Casa",
-    description: "Medicamentos entregues discretamente na sua porta"
+    title: "Receba em casa",
+    description: "Medicamentos entregues na sua porta"
   },
   {
     icon: TrendingUp,
@@ -29,7 +29,7 @@ export const HowItWorksSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Como Funciona
+            Como funciona
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Seu tratamento capilar em 4 passos simples

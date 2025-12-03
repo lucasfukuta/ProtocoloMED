@@ -14,7 +14,7 @@ import { AuthProvider } from "@/auth/AuthProvider";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import DoctorDashboard from "./pages/DoctorDashboard";
 import Contact from "./pages/Contact";
-import UserProfile from "./pages/UserProfile";
+import ClientProfile from "./pages/ClientProfile";
 import ClientProtocol from "./pages/ClientProtocol";
 
 const queryClient = new QueryClient();
@@ -45,7 +45,7 @@ const App = () => (
               path="/perfil"
               element={
                 <ProtectedRoute requireRole="patient">
-                  <UserProfile />
+                  <ClientProfile />
                 </ProtectedRoute>
               }
             />

@@ -14,19 +14,19 @@ export const ResultsSection = () => {
         </div>
 
         <div className="max-w-4xl mx-auto">
-          <img 
+          <img
             src={resultsImage}
             alt="Resultados antes e depois do tratamento capilar"
             className="rounded-2xl shadow-xl w-full"
           />
-          
+
           <div className="mt-12 text-center space-y-4">
             <p className="text-lg text-muted-foreground">
-              Mais de <strong className="text-primary">85%</strong> dos nossos pacientes relatam melhora significativa em 6 meses
+              Mais de <strong className="text-primary">90%</strong> dos nossos pacientes relatam melhora significativa em 6 meses
             </p>
             <div className="flex justify-center gap-8 flex-wrap">
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary">50K+</div>
+                <div className="text-3xl font-bold text-primary">Diversos</div>
                 <div className="text-sm text-muted-foreground">Pacientes Tratados</div>
               </div>
               <div className="text-center">

@@ -19,7 +19,7 @@ export const CTASection = () => {
               variant="secondary"
               className="text-lg px-8 py-6 h-auto group"
             >
-              Iniciar Avaliação Gratuita
+              Iniciar avaliação gratuita
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
