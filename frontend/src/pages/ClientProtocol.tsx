@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,13 +41,13 @@ const ClientProtocol = () => {
 
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div>
-                            <h1 className="text-3xl font-bold tracking-tight">Meu Protocolo</h1>
+                            <h1 className="text-3xl font-bold tracking-tight">Meu protocolo</h1>
                             <p className="text-muted-foreground">
                                 Acompanhe seu tratamento, prescrições e agendamentos.
                             </p>
                         </div>
-                        <Badge variant="outline" className="text-lg py-1 px-4 border-primary text-primary">
-                            Protocolo Ativo
+                        <Badge variant="outline" className="text-lg py-1 px-4 border-green-600 text-green-600 bg-green-50">
+                            Ativo
                         </Badge>
                     </div>
 
@@ -59,7 +61,7 @@ const ClientProtocol = () => {
                                 <CardHeader>
                                     <div className="flex items-center gap-2">
                                         <Pill className="h-5 w-5 text-primary" />
-                                        <CardTitle>Plano Atual de Medicamentos</CardTitle>
+                                        <CardTitle>Plano atual de medicamentos</CardTitle>
                                     </div>
                                     <CardDescription>{currentPlan.name}</CardDescription>
                                 </CardHeader>
@@ -97,7 +99,7 @@ const ClientProtocol = () => {
                                 <CardHeader>
                                     <div className="flex items-center gap-2">
                                         <FileText className="h-5 w-5 text-primary" />
-                                        <CardTitle>Histórico de Prescrições</CardTitle>
+                                        <CardTitle>Histórico de prescrições</CardTitle>
                                     </div>
                                     <CardDescription>Registro de envios e renovações de receita.</CardDescription>
                                 </CardHeader>
@@ -129,13 +131,13 @@ const ClientProtocol = () => {
 
                         </div>
 
-                        {/* Coluna Lateral: Calendário */}
+                        {/* Coluna lateral: Calendário */}
                         <div className="space-y-8">
                             <Card>
                                 <CardHeader>
                                     <div className="flex items-center gap-2">
                                         <CalendarIcon className="h-5 w-5 text-primary" />
-                                        <CardTitle>Próxima Consulta</CardTitle>
+                                        <CardTitle>Próxima consulta</CardTitle>
                                     </div>
                                     <CardDescription>Acompanhamento agendado.</CardDescription>
                                 </CardHeader>
@@ -151,6 +153,9 @@ const ClientProtocol = () => {
                                         <p className="font-medium">05 de Dezembro de 2025</p>
                                         <p className="text-sm text-muted-foreground">às 14:30 com Dra. Ana Costa</p>
                                     </div>
+                                    <Link to="/agendamento" className="w-full">
+                                        <Button className="w-full">Agendar consulta</Button>
+                                    </Link>
                                 </CardContent>
                             </Card>
                         </div>

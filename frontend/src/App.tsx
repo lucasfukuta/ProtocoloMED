@@ -16,6 +16,7 @@ import DoctorDashboard from "./pages/DoctorDashboard";
 import Contact from "./pages/Contact";
 import ClientProfile from "./pages/ClientProfile";
 import ClientProtocol from "./pages/ClientProtocol";
+import ClientSchedule from "./pages/ClientSchedule";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/questionario" element={<Questionnaire />} />
             <Route path="/sobre-nos" element={<AboutUs />} />
             <Route path="/contato" element={<Contact />} />
+            <Route path="/agendamento" element={<ClientSchedule />} />
             <Route
               path="/perfil"
               element={
@@ -62,7 +64,7 @@ const App = () => (
 
             {/* Protocolo do Cliente */}
             <Route
-              path="/ClientProtocol"
+              path="/SeuProtocolo"
               element={
                 <ProtectedRoute requireRole="patient">
                   <ClientProtocol />

@@ -126,9 +126,9 @@ export const ClientDashboard = () => {
           <AlertTitle>Seu Próximo Passo é Importante!</AlertTitle>
           <AlertDescription className="flex items-center justify-between">
             <span className="font-semibold">Sua próxima consulta de acompanhamento está agendada para 05/Dez.</span>
-            <Link to="/ClientProtocol">
-              <Button variant="secondary" className="bg-white text-primary hover:bg-gray-100 ml-4">
-                Ver Detalhes
+            <Link to="/agendamento">
+              <Button variant="secondary" className="bg-white text-primary hover:bg-gray-100 ml-2">
+                Ver agendamentos
               </Button>
             </Link>
           </AlertDescription>
@@ -161,7 +161,7 @@ export const ClientDashboard = () => {
             <p className="text-xs text-muted-foreground mt-1">Especialista em Tricologia.</p>
           </CardContent>
           <CardFooter className="flex gap-2">
-            <Link to="/ClientProtocol">
+            <Link to="/SeuProtocolo">
               <Button variant="outline" size="sm">Histórico de prescrição</Button>
             </Link>
             <Link to="/perfil-medico" className="text-sm text-primary hover:underline flex items-center">Ver Perfil</Link>
@@ -258,7 +258,7 @@ export const ClientDashboard = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Link to="/ClientProtocol">
+            <Link to="/SeuProtocolo">
               <Button variant="default" className="w-full">
                 Gerenciar Plano
               </Button>
