@@ -26,7 +26,7 @@ interface Question {
 const questions: Question[] = [
   // FASE 1 (Mantida)
   {
-    id: "F1_Q1_gender", question: "Por favor, selecione com qual gênero você se identifica.",
+    id: "F1_Q1_gender", question: "Por favor, selecione seu sexo biológico.",
     options: [{ value: "feminino", label: "Feminino" }, { value: "masculino", label: "Masculino" }]
   },
 

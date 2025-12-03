@@ -183,6 +183,7 @@ const DoctorSchedule = () => {
                     </CardContent>
                 </Card>
             </div>
+
             {/* Layout */}
             <div className="grid lg:grid-cols-4 gap-6">
                 {/* Calendar Column */}

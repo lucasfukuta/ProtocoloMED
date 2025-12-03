@@ -59,7 +59,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-foreground">Telefone / WhatsApp</h3>
-                                    <p className="text-muted-foreground">(61) 99999-9999</p>
+                                    <p className="text-muted-foreground">(61) 99970-4822</p>
                                     <p className="text-sm text-muted-foreground">Seg-Sex, 09h às 18h</p>
                                 </div>
                             </div>
@@ -81,8 +81,9 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-foreground">Localização</h3>
-                                    <p className="text-muted-foreground">Av. W3, Asa Norte - Brasília</p>
+                                    <p className="text-muted-foreground">SCLRN 703, Bloco "H", Loja 32. Asa Norte</p>
                                     <p className="text-sm text-muted-foreground">Brasília - DF</p>
+                                    <p className="text-sm text-muted-foreground">CEP: 70740610</p>
                                 </div>
                             </div>
                         </div>
