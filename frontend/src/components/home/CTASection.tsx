@@ -13,7 +13,7 @@ export const CTASection = () => {
           <p className="text-xl text-primary-foreground/90">
             Comece sua avaliação gratuita agora e receba seu plano de tratamento personalizado
           </p>
-          <Link to="/questionario">
+          <Link to="/questionario" className="inline-block mt-8">
             <Button
               size="lg"
               variant="secondary"

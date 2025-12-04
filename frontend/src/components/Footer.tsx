@@ -11,7 +11,7 @@ export const Footer = () => {
                     <div className="text-center md:text-left space-y-2">
                         <h2 className="text-2xl font-bold tracking-tight">Protocolo MED</h2>
                         <p className="text-sm text-slate-400">
-                            Nossa missão é restaurar sua saúde, autoestima e qualidade de vida através de protocolos inovadores, cuidado compassivo e excelência médica. Porque sua saúde merece o melhor cuidado, onde quer que você esteja.
+                            Nossa missão é restaurar sua saúde, autoestima e qualidade de vida através de protocolos inovadores, cuidado compassivo e excelência médica.<br></br> Porque sua saúde merece o melhor cuidado, onde quer que você esteja.
                         </p>
                         <p className="text-xs text-slate-500 mt-4">
                             CNPJ: 58.795.700/0001-08
@@ -26,17 +26,17 @@ export const Footer = () => {
                         <h3 className="font-semibold text-lg mb-1">Fale Conosco</h3>
 
                         <div className="flex items-center gap-2 text-slate-300">
-                            <span className="text-sm">(61) 99970-4822</span>
+                            <span className="text-sm text-right">(61) 99970-4822</span>
                             <Phone className="h-4 w-4" />
                         </div>
 
                         <div className="flex items-center gap-2 text-slate-300">
-                            <span className="text-sm">contato@protocolomed.com.br</span>
+                            <span className="text-sm text-right">contato@protocolomed.com.br</span>
                             <Mail className="h-4 w-4" />
                         </div>
 
                         <div className="flex items-center gap-2 text-slate-300">
-                            <span className="text-sm">SCLRN 703, Bloco "H", Loja 32, Asa Norte. <br></br>Brasilia, Distrito Federal. <br></br> CEP: 70740610</span>
+                            <span className="text-sm text-right">SCLRN 703, Bloco "H", Loja 32, Asa Norte. <br></br>Brasilia, Distrito Federal. <br></br> CEP: 70740610</span>
                             <MapPin className="h-4 w-4" />
                         </div>
                     </div>
