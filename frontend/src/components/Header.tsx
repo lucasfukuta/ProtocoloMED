@@ -64,7 +64,7 @@ export const Header = () => {
           <img
             src={Logo}
             alt="Logo ProtocoloMED"
-            className="h-14 md:h-20 w-auto"
+            className="h-12 md:h-20 w-auto"
           />
         </Link>
 
@@ -72,7 +72,7 @@ export const Header = () => {
         <div className="flex items-center gap-3">
           {/* Botão Questionário Principal */}
           <Link to="/questionario">
-            <Button variant="default" size="sm" className="md:text-base md:px-6 md:py-2 md:h-11">
+            <Button variant="default" className="text-xs px-2 py-1 h-8 md:text-base md:px-6 md:py-2 md:h-11">
               Questionário
             </Button>
           </Link>
