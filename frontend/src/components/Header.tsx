@@ -29,7 +29,7 @@ export const Header = () => {
           <DropdownMenuContent align="start" className="w-48">
             {/* Opções de navegação do Menu */}
             <DropdownMenuItem asChild className="md:hidden">
-              <Link to="/login">Login</Link>
+              <Link to="/login">Entrar</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="md:hidden">
               <Link to="/register">Cadastre-se</Link>
@@ -49,7 +49,7 @@ export const Header = () => {
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link to="/login" className="hidden md:block text-sm text-muted-foreground hover:text-foreground">
-                Login
+                Entrar
               </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
